@@ -1,7 +1,7 @@
 // Server tanpa dependensi: menyajikan folder public dan menyimpan checklist bersama di file JSON.
 const http=require('http'),fs=require('fs'),path=require('path');
 const PORT=process.env.PORT||3000, DATA=process.env.DATA_DIR||path.join(__dirname,'data'), FILE=path.join(DATA,'checks.json');
-const PUB=path.join(__dirname,'public');
+const PUB=__dirname, ALLOW=new Set(['/index.html','/bahan.json']);
 const TYPES={'.html':'text/html; charset=utf-8','.json':'application/json','.js':'text/javascript','.css':'text/css','.svg':'image/svg+xml','.png':'image/png','.ico':'image/x-icon'};
 fs.mkdirSync(DATA,{recursive:true});
 let db={};try{db=JSON.parse(fs.readFileSync(FILE,'utf8'))}catch(e){}
@@ -20,7 +20,7 @@ http.createServer((req,res)=>{
         save();send(res,200,{ok:true})}catch(e){send(res,400,{error:'bad request'})}});return}
     return send(res,405,{error:'method'})}
   let p=path.normalize(decodeURIComponent(u.pathname)).replace(/^(\.\.[\/\\])+/,'');if(p==='/'||p==='\\')p='/index.html';
-  const f=path.join(PUB,p);if(!f.startsWith(PUB))return send(res,403,{});
+  if(!ALLOW.has(p.replace(/\\/g,'/')))return send(res,404,{});const f=path.join(PUB,p);if(!f.startsWith(PUB))return send(res,403,{});
   fs.readFile(f,(e,data)=>{if(e){res.writeHead(404);return res.end('Not found')}
     res.writeHead(200,{'Content-Type':TYPES[path.extname(f)]||'application/octet-stream'});res.end(data)});
 }).listen(PORT,()=>console.log('Dunia Nathaniel jalan di port '+PORT));
