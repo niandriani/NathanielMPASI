@@ -1,0 +1,14 @@
+[
+ {"name":"Ayam","status":"ok","note":"24 Okt"},
+ {"name":"Nasi","status":"ok","note":"24 Okt"},
+ {"name":"Wortel","status":"ok","note":"24 Okt"},
+ {"name":"Bawang putih","status":"ok","note":"24 Okt"},
+ {"name":"Bawang merah","status":"ok","note":"24 Okt"},
+ {"name":"Beef fat oil","status":"ok","note":"24 Okt"},
+ {"name":"Daging sapi","status":"new"},
+ {"name":"Hati ayam","status":"new"},
+ {"name":"Kuning telur","status":"new"},
+ {"name":"Ikan","status":"new"},
+ {"name":"Brokoli","status":"new"},
+ {"name":"Labu kuning","status":"new"}
+]

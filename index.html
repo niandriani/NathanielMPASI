@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Dunia Nathaniel</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800&display=swap">
+<style>
+/* Layout: mobile-first single column, sticky pill tabs, chunky sticker cards on a sky-to-cloud ground */
+:root{
+  --bg:#EAF5FF; --bg2:#D5ECFF; --card:#FFFFFF; --ink:#12315A; --mute:#5B7595; --line:#BFDDF7;
+  --sky:#3FA2F7; --sun:#FFC933; --sunInk:#5A3E00; --mint:#38C9A0; --coral:#FF7A6B; --grape:#8D7CF0;
+  --milk:#DCEBFA; --milkInk:#1E4E7E; --sleep:#E4DFF5; --sleepInk:#3F2E7A; --meal:#FFF0BD; --mealInk:#6B4A00;
+  --bath:#D3F3E6; --bathInk:#0F5E45; --supp:#FFDDE0; --suppInk:#8A2B3A; --edge:#12315A22;
+  --f1:'Fredoka','Trebuchet MS',sans-serif; --f2:'Nunito','Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E1B33; --bg2:#14274A; --card:#1B2F57; --ink:#EAF3FF; --mute:#9DB6D8; --line:#2C4776;
+  --sky:#5DB4FF; --sun:#FFD04D; --sunInk:#FFE9A8; --mint:#4CD9B0; --coral:#FF8D80; --grape:#A394FF;
+  --milk:#1F4472; --milkInk:#CFE6FF; --sleep:#33297A; --sleepInk:#DAD3FF; --meal:#5B4608; --mealInk:#FFE9A8;
+  --bath:#0F4A3B; --bathInk:#BDF3DF; --supp:#6B2A38; --suppInk:#FFD3D8; --edge:#00000055; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1B33; --bg2:#14274A; --card:#1B2F57; --ink:#EAF3FF; --mute:#9DB6D8; --line:#2C4776;
+  --sky:#5DB4FF; --sun:#FFD04D; --sunInk:#FFE9A8; --mint:#4CD9B0; --coral:#FF8D80; --grape:#A394FF;
+  --milk:#1F4472; --milkInk:#CFE6FF; --sleep:#33297A; --sleepInk:#DAD3FF; --meal:#5B4608; --mealInk:#FFE9A8;
+  --bath:#0F4A3B; --bathInk:#BDF3DF; --supp:#6B2A38; --suppInk:#FFD3D8; --edge:#00000055; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:600 16px/1.5 var(--f2);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg2)}
+.wrap{max-width:720px;margin:0 auto;padding-block:0 40px}
+h1,h2,h3{font-family:var(--f1);margin:0;text-wrap:balance}
+.hero{position:relative;margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px)));
+  padding:20px max(16px,env(safe-area-inset-left,0px)) 56px;background:linear-gradient(180deg,var(--bg2),var(--bg));overflow:hidden}
+.hero-in{max-width:720px;margin:0 auto;position:relative}
+.hero h1{font-size:clamp(34px,9vw,52px);line-height:1;font-weight:700;letter-spacing:.2px}
+.hero h1 span{color:var(--sky)}
+.hero p{margin:8px 0 0;color:var(--mute);font-weight:700}
+.age{display:inline-flex;gap:6px;align-items:center;margin-top:12px;background:var(--sun);color:#3A2800;border-radius:999px;padding:6px 14px;font:700 14px var(--f1);box-shadow:0 3px 0 #0002}
+.deco{position:absolute;right:-6px;top:-4px;width:150px;height:130px;pointer-events:none}
+.cloud{position:absolute;bottom:-1px;left:0;width:100%;height:44px}
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;gap:6px;background:var(--card);border:3px solid var(--ink);border-radius:999px;padding:5px;margin:-30px 0 18px;box-shadow:0 5px 0 var(--edge)}
+.tabs a{flex:1;text-align:center;text-decoration:none;color:var(--ink);font:600 15px var(--f1);padding:9px 6px;border-radius:999px}
+.tabs a[aria-current="page"]{background:var(--sky);color:#fff}
+.tabs a:focus-visible,button:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+section[hidden]{display:none}
+.card{background:var(--card);border:3px solid var(--ink);border-radius:22px;box-shadow:0 5px 0 var(--edge);padding:16px}
+.now{background:var(--sky);color:#fff;border-color:var(--ink);position:relative;overflow:hidden}
+.now .lbl{font:600 13px var(--f1);letter-spacing:.08em;text-transform:uppercase;opacity:.9}
+.now .big{font:700 clamp(26px,7vw,34px)/1.1 var(--f1);margin:4px 0 2px}
+.now .meta{font-weight:800;opacity:.95}
+.nowtime{display:inline-block;background:#fff;color:var(--ink);border-radius:12px;padding:2px 10px;font:700 15px var(--f1);margin-right:8px;font-variant-numeric:tabular-nums}
+.next{display:flex;gap:10px;align-items:center;margin-top:12px;background:#ffffff26;border-radius:14px;padding:10px 12px;font-weight:800}
+.bar{height:10px;background:#ffffff40;border-radius:99px;margin-top:12px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--sun);border-radius:99px}
+.prog{display:flex;justify-content:space-between;align-items:center;margin:22px 2px 10px}
+.prog h2{font-size:22px}
+.count{font:700 14px var(--f1);background:var(--mint);color:#06382B;border-radius:99px;padding:4px 12px}
+.list{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.row{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;background:var(--card);border:3px solid var(--line);border-radius:18px;padding:10px 12px}
+.row.cur{border-color:var(--ink);box-shadow:0 4px 0 var(--edge);background:var(--card)}
+.row.done .tt{text-decoration:line-through;opacity:.55}
+.time{font:700 16px var(--f1);min-width:58px;font-variant-numeric:tabular-nums}
+.time small{display:block;font:700 11px var(--f2);color:var(--mute)}
+.tt{min-width:0;overflow-wrap:anywhere}
+.tt b{display:block;font:600 17px/1.2 var(--f1)}
+.tt span{font-size:14px;color:var(--mute);font-weight:700}
+.chip{font:600 12px var(--f1);border-radius:99px;padding:3px 10px;display:inline-block;margin-bottom:3px}
+.t-susu .chip{background:var(--milk);color:var(--milkInk)} .t-tidur .chip{background:var(--sleep);color:var(--sleepInk)}
+.t-makan .chip{background:var(--meal);color:var(--mealInk)} .t-mandi .chip{background:var(--bath);color:var(--bathInk)}
+.t-vit .chip{background:var(--supp);color:var(--suppInk)}
+.chk{appearance:none;-webkit-appearance:none;width:34px;height:34px;border-radius:12px;border:3px solid var(--ink);background:var(--card);cursor:pointer;display:grid;place-items:center;margin:0}
+.chk:checked{background:var(--mint)} .chk:checked::after{content:"";width:9px;height:17px;border:solid #06382B;border-width:0 4px 4px 0;transform:rotate(45deg) translate(-1px,-2px)}
+.chk[disabled]{opacity:.4;cursor:not-allowed}
+.note{margin-top:16px;display:grid;gap:10px}
+.tip{background:var(--meal);color:var(--mealInk);border-radius:18px;padding:12px 14px;font-size:15px}
+.tip b{font-family:var(--f1)}
+.sync{font-size:13px;color:var(--mute);margin:12px 2px 0;font-weight:700}
+.reset{font:600 14px var(--f1);border:3px solid var(--ink);background:var(--card);color:var(--ink);border-radius:99px;padding:8px 16px;cursor:pointer;box-shadow:0 3px 0 var(--edge)}
+.reset.arm{background:var(--coral);color:#3B0A04}
+h2.sec{font-size:24px;margin:6px 2px 12px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.fchip{font:600 14px var(--f1);border:3px solid var(--ink);background:var(--card);color:var(--ink);border-radius:99px;padding:6px 14px;cursor:pointer}
+.fchip[aria-pressed="true"]{background:var(--sun);color:#3A2800}
+.menus{display:grid;gap:16px}
+.menu{padding:0;overflow:hidden}
+.mhead{display:flex;gap:12px;align-items:center;padding:14px 16px;background:var(--meal);color:var(--mealInk);border-bottom:3px solid var(--ink)}
+.mhead h3{font-size:21px;line-height:1.15}
+.badge{margin-left:auto;font:600 12px var(--f1);border-radius:99px;padding:4px 10px;background:var(--mint);color:#06382B;white-space:nowrap}
+.badge.new{background:var(--grape);color:#fff}
+.mbody{padding:14px 16px;display:grid;gap:12px}
+.mbody h4{margin:0 0 4px;font:600 14px var(--f1);color:var(--sky);letter-spacing:.06em;text-transform:uppercase}
+.mbody ul,.mbody ol{margin:0;padding-left:20px} .mbody li{margin:2px 0}
+.facts{display:flex;gap:8px;flex-wrap:wrap}
+.fact{background:var(--bg);border-radius:12px;padding:6px 10px;font-size:14px}
+.store{display:grid;gap:10px;margin-top:18px}
+.store .card{display:flex;gap:12px;align-items:flex-start}
+.ic{flex:none;width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:var(--sky);color:#fff}
+.cols{display:grid;gap:12px}
+.col h3{font-size:19px;margin-bottom:8px;display:flex;gap:8px;align-items:center}
+.pill{display:inline-block;background:var(--bg);border:2px solid var(--line);border-radius:99px;padding:4px 12px;margin:3px 4px 3px 0;font-size:14px}
+.pill small{color:var(--mute);font-weight:700}
+.empty{color:var(--mute);font-weight:700;font-size:14px;margin:0}
+.col.ok h3{color:var(--mint)} .col.watch h3{color:#E39A00} .col.new h3{color:var(--grape)}
+@media(min-width:620px){.cols{grid-template-columns:repeat(3,1fr)}.menus{grid-template-columns:1fr 1fr}}
+@media(prefers-reduced-motion:no-preference){.deco .st{animation:tw 3s ease-in-out infinite}.deco .st2{animation-delay:1.2s}@keyframes tw{50%{opacity:.35}}}
+</style>
+</head><body>
+
+<div class="wrap">
+<header class="hero"><div class="hero-in">
+  <svg class="deco" viewBox="0 0 150 130" aria-hidden="true">
+    <circle cx="96" cy="50" r="34" fill="#FFC933"/><circle cx="110" cy="40" r="30" fill="var(--bg2)"/>
+    <path class="st" d="M30 30l5 11 12 1-9 8 3 12-11-6-11 6 3-12-9-8 12-1z" fill="#FFC933"/>
+    <path class="st st2" d="M130 100l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1z" fill="#3FA2F7"/>
+    <circle cx="60" cy="95" r="4" fill="#8D7CF0"/><circle cx="20" cy="75" r="3" fill="#38C9A0"/>
+  </svg>
+  <h1>Halo, <span>Nathaniel</span>!</h1>
+  <p>Jadwal harian dan menu MPASI si jagoan kecil</p>
+  <div class="age" id="age">Usia …</div>
+</div>
+<svg class="cloud" viewBox="0 0 400 44" preserveAspectRatio="none" aria-hidden="true"><path d="M0 44V28c20-14 40-14 60 0 18-18 48-18 66 2 22-16 52-16 72 2 20-18 52-18 72 0 24-16 54-12 68 4 20-10 44-6 62 8v18z" fill="var(--bg)"/></svg>
+</header>
+
+<nav class="tabs" aria-label="Menu halaman">
+  <a href="#jadwal" data-tab="jadwal">Jadwal</a><a href="#menu" data-tab="menu">Menu</a><a href="#bahan" data-tab="bahan">Bahan</a>
+</nav>
+
+<section id="p-jadwal">
+  <div class="card now" id="nowcard" aria-live="polite"></div>
+  <div class="prog"><h2>Checklist hari ini</h2><span class="count" id="count">0 / 0</span></div>
+  <ul class="list" id="list"></ul>
+  <p class="sync" id="sync">Menghubungkan checklist bersama…</p>
+  <div class="note">
+    <div class="tip"><b>Untuk pengasuh:</b> centang setiap kegiatan yang sudah selesai. Orang tua langsung bisa melihatnya. Susu selalu 1,5 sampai 2 jam sebelum makan, jangan terlalu dekat supaya tidak kekenyangan.</div>
+    <div><button class="reset" id="reset" type="button">Hapus semua centang hari ini</button></div>
+  </div>
+</section>
+
+<section id="p-menu" hidden>
+  <h2 class="sec">Menu siap pakai</h2>
+  <div class="chips" id="filters" role="group" aria-label="Filter protein"></div>
+  <div class="menus" id="menus"></div>
+  <div class="store">
+    <div class="card"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 3v18M5 8l7-5 7 5"/></svg></div><div><b>Tekstur usia 7 bulan.</b> Mengacu pada panduan IDAI: bubur lumat atau saring kasar, lalu bertahap ke makanan cincang halus dan lembek. Sekarang Nathaniel masih di tahap saring, naikkan teksturnya pelan-pelan sesuai kesiapan mengunyah.</div></div>
+    <div class="card"><div class="ic" style="background:var(--mint)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 12h16M12 4v16"/></svg></div><div><b>Porsi.</b> Mulai 2 sampai 3 sendok makan, naik bertahap sampai sekitar setengah mangkuk (±125 ml) per makan. Susu tetap jadi sumber utama.</div></div>
+    <div class="card"><div class="ic" style="background:var(--coral)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 3v10M8 8l4 5 4-5M5 21h14"/></svg></div><div><b>Simpan dan hangatkan.</b> Suhu ruang maksimal 2 jam. Chiller (≤4°C) maksimal 24 jam, freezer sekitar 1 bulan. Cairkan di chiller, panaskan sampai mengepul lalu dinginkan sampai hangat. Panaskan sekali saja dan buang sisa di mangkuk bayi.</div></div>
+  </div>
+</section>
+
+<section id="p-bahan" hidden>
+  <h2 class="sec">Catatan bahan</h2>
+  <div class="cols" id="cols"></div>
+  <p class="sync">Perkenalkan satu bahan baru, tunggu 2 sampai 3 hari, amati ruam, muntah, diare atau rewel sebelum menambah bahan lain.</p>
+</section>
+</div>
+
+<script>
+(function(){
+var TZ='Asia/Jakarta', BORN=new Date('2026-04-24T00:00:00+07:00');
+// type: susu | tidur | makan | mandi | vit ; s = start (menit), e = akhir (tidur)
+var ITEMS=[
+ {id:'susu0545',s:345,t:'susu',n:'Susu 140 ml',d:'Sebelum tidur pagi, 1 jam 45 menit sebelum makan'},
+ {id:'tidur1',s:360,e:430,t:'tidur',n:'Tidur pagi 1',d:'Bangunkan sekitar 07:10'},
+ {id:'makan1',s:450,t:'makan',n:'Makan pagi',d:'Langsung lanjut mandi'},
+ {id:'mandi1',s:480,t:'mandi',n:'Mandi ±15 menit',d:'Apialys atau D3 bergantian'},
+ {id:'susu0930',s:570,t:'susu',n:'Susu 140 ml + Omega',d:'Sebelum tidur pagi 2'},
+ {id:'tidur2',s:575,e:670,t:'tidur',n:'Tidur pagi 2',d:'Bangun sekitar 11:10'},
+ {id:'fe',s:675,t:'vit',n:'Zat besi',d:'Sebelum makan siang'},
+ {id:'makan2',s:690,t:'makan',n:'Makan siang',d:'±20 menit, lalu bersih-bersih tanpa mandi'},
+ {id:'susu1330',s:810,t:'susu',n:'Susu 140 ml',d:'Cek popok'},
+ {id:'tidur3',s:815,e:895,t:'tidur',n:'Tidur siang',d:'Bangun sekitar 14:55'},
+ {id:'makan3',s:930,t:'makan',n:'Makan sore',d:'Setelah itu mandi'},
+ {id:'mandi2',s:955,t:'mandi',n:'Mandi ±15 menit',d:'Mandi sore'},
+ {id:'susu1610',s:970,t:'susu',n:'Susu 100–120 ml',d:'Sebelum tidur sore'},
+ {id:'tidur4',s:985,e:1045,t:'tidur',n:'Tidur sore',d:'Bangun sekitar 17:25'},
+ {id:'susu1830',s:1110,t:'susu',n:'Susu 100–120 ml',d:'Sebelum tidur malam'},
+ {id:'tidur5',s:1140,t:'tidur',n:'Tidur malam',d:'Lanjut sampai bangun pertama'}
+];
+var LABEL={susu:'Susu',tidur:'Tidur',makan:'Makan',mandi:'Mandi',vit:'Suplemen'};
+var MENUS=[
+ {id:'ayam',p:'Ayam',name:'Bubur ayam wortel',st:'ok',time:'±40 menit',
+  ing:['Ayam 30 g','Nasi 3 sdm','Wortel 1 potong kecil','Bawang putih dan bawang merah secukupnya','Beef fat oil 1 sdt','Air 250 ml'],
+  steps:['Tumis bawang dengan beef fat oil sampai harum.','Masukkan ayam, nasi dan wortel, tambah air.','Masak sampai empuk, lalu saring kasar atau blender.','Dinginkan sampai hangat, sajikan.'],
+  tex:'Saring halus sampai lumat kasar'},
+ {id:'sapi',p:'Sapi',name:'Bubur sapi labu',st:'new',time:'±45 menit',
+  ing:['Daging sapi giling 30 g','Nasi 3 sdm','Labu kuning 40 g','Bawang putih secukupnya','Beef fat oil 1 sdt','Air 250 ml'],
+  steps:['Tumis bawang putih dengan beef fat oil.','Masukkan sapi, nasi dan labu, tambah air.','Masak sampai daging sangat empuk.','Blender atau saring kasar, sajikan hangat.'],
+  tex:'Lumat, tanpa serat daging yang panjang'},
+ {id:'hati',p:'Hati ayam',name:'Bubur hati ayam brokoli',st:'new',time:'±35 menit',
+  ing:['Hati ayam 15 g','Nasi 3 sdm','Brokoli 1 kuntum kecil','Bawang merah secukupnya','Beef fat oil 1 sdt','Air 250 ml'],
+  steps:['Rebus hati ayam sampai matang sempurna.','Tumis bawang, masukkan nasi, brokoli, hati dan air.','Masak sampai lunak, lalu blender sampai halus.','Sajikan hangat. Hati cukup 1 sampai 2 kali seminggu.'],
+  tex:'Lumat halus'},
+ {id:'ikan',p:'Ikan',name:'Bubur ikan wortel',st:'new',time:'±35 menit',
+  ing:['Ikan fillet tanpa duri 30 g','Nasi 3 sdm','Wortel 1 potong kecil','Bawang putih secukupnya','Minyak 1 sdt','Air 250 ml'],
+  steps:['Kukus ikan sampai matang, periksa duri sekali lagi.','Tumis bawang, masukkan nasi, wortel dan air.','Tambahkan ikan, masak sebentar.','Saring kasar, sajikan hangat.'],
+  tex:'Lumat kasar, pastikan tanpa duri'}
+];
+var DEF_BAHAN=[];
+var $=function(s){return document.querySelector(s)};
+var pad=function(n){return String(n).padStart(2,'0')};
+function jk(){var p=new Intl.DateTimeFormat('en-GB',{timeZone:TZ,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).formatToParts(new Date()),o={};p.forEach(function(x){o[x.type]=x.value});
+  return {date:o.year+'-'+o.month+'-'+o.day,min:(+o.hour%24)*60+(+o.minute),sec:+o.second}}
+var fmt=function(m){m=((m%1440)+1440)%1440;return pad(Math.floor(m/60))+':'+pad(m%60)};
+var done={}, dbOK=false, ref=null, today=jk().date;
+
+function ageText(){var n=new Date(),m=(n.getFullYear()-2026)*12+n.getMonth()-3,d=n.getDate()-24;if(d<0){m--;d+=new Date(n.getFullYear(),n.getMonth(),0).getDate()}
+  var days=Math.floor((n-BORN)/864e5);return 'Usia '+m+' bulan '+d+' hari · MPASI hari ke-'+(Math.floor((n-new Date('2026-10-24T00:00:00+07:00'))/864e5)+1)}
+$('#age').textContent=ageText();
+
+function cur(){var j=jk(),idx=-1;for(var i=0;i<ITEMS.length;i++){if(ITEMS[i].s<=j.min)idx=i}return {j:j,idx:idx}}
+function renderNow(){
+  var c=cur(),it=c.idx>=0?ITEMS[c.idx]:null,nx=ITEMS[c.idx+1]||null,h='';
+  var nxTxt=nx?'<div class="next"><span class="nowtime">'+fmt(nx.s)+'</span>Berikutnya: '+nx.n+'</div>':'<div class="next">Besok mulai lagi dari bangun pertama</div>';
+  if(!it){h='<div class="lbl">Sekarang</div><div class="big">Tidur malam / bangun pertama</div><div class="meta">Susu pertama dijadwalkan 05:45</div><div class="next"><span class="nowtime">05:45</span>Berikutnya: Susu 140 ml</div>'}
+  else{var end=it.e||(nx?nx.s:1440),p=Math.max(0,Math.min(100,(c.j.min-it.s)/Math.max(1,end-it.s)*100));
+    h='<div class="lbl">Sekarang · '+fmt(c.j.min)+' WIB</div><div class="big">'+it.n+'</div><div class="meta"><span class="nowtime">'+fmt(it.s)+(it.e?'–'+fmt(it.e):'')+'</span>'+it.d+'</div><div class="bar" aria-hidden="true"><i style="width:'+p+'%"></i></div>'+nxTxt}
+  $('#nowcard').innerHTML=h}
+function renderList(){
+  var c=cur(),h='',n=0;
+  ITEMS.forEach(function(it,i){var d=!!done[it.id];if(d)n++;
+    h+='<li class="row t-'+it.t+(i===c.idx?' cur':'')+(d?' done':'')+'"><div class="time">'+fmt(it.s)+(it.e?'<small>sampai '+fmt(it.e)+'</small>':'')+'</div><div class="tt"><span class="chip">'+LABEL[it.t]+'</span><b>'+it.n+'</b><span>'+it.d+'</span></div><input class="chk" type="checkbox" id="c_'+it.id+'" data-id="'+it.id+'" aria-label="Selesai: '+it.n+'"'+(d?' checked':'')+(dbOK?'':' disabled')+'></li>'});
+  $('#list').innerHTML=h;$('#count').textContent=n+' / '+ITEMS.length}
+function sync(msg){$('#sync').textContent=msg}
+
+var API='/api/checks', server=false;
+function lsGet(){try{return JSON.parse(localStorage.getItem('chk_'+today)||'{}')}catch(e){return {}}}
+function lsSet(o){try{localStorage.setItem('chk_'+today,JSON.stringify(o))}catch(e){}}
+function post(b){return fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}).catch(function(){sync('Gagal menyimpan, coba lagi.')})}
+async function loadChecks(){
+  try{var r=await fetch(API+'?date='+today,{cache:'no-store'});if(!r.ok)throw 0;var j=await r.json();done={};(j.items||[]).forEach(function(id){done[id]=1});server=true;renderList();sync('Tersinkron untuk semua yang membuka halaman ini.')}
+  catch(e){server=false;done=lsGet();renderList();sync('Mode lokal: centang hanya tersimpan di perangkat ini.')}
+}
+function initDb(){dbOK=true;loadChecks();setInterval(loadChecks,10000);
+  fetch('bahan.json',{cache:'no-store'}).then(function(r){return r.json()}).then(renderBahan).catch(function(){})}
+$('#list').addEventListener('change',function(e){var el=e.target;if(!el.dataset.id)return;var id=el.dataset.id;
+  if(el.checked)done[id]=1;else delete done[id];renderList();
+  if(server)post({date:today,item:id,done:el.checked});else lsSet(done)});
+var arm=false;$('#reset').addEventListener('click',function(){var b=this;if(!arm){arm=true;b.classList.add('arm');b.textContent='Yakin? Ketuk lagi untuk menghapus';setTimeout(function(){arm=false;b.classList.remove('arm');b.textContent='Hapus semua centang hari ini'},4000);return}
+  arm=false;b.classList.remove('arm');b.textContent='Hapus semua centang hari ini';done={};renderList();if(server)post({date:today,reset:true});else lsSet(done)});
+
+/* Menu */
+var filt='Semua';
+function renderMenus(){
+  var ps=['Semua'].concat(MENUS.map(function(m){return m.p}));
+  $('#filters').innerHTML=ps.map(function(p){return '<button type="button" class="fchip" aria-pressed="'+(p===filt)+'" data-p="'+p+'">'+p+'</button>'}).join('');
+  $('#menus').innerHTML=MENUS.filter(function(m){return filt==='Semua'||m.p===filt}).map(function(m){
+    return '<article class="card menu"><div class="mhead"><h3>'+m.name+'</h3><span class="badge '+(m.st==='ok'?'':'new')+'">'+(m.st==='ok'?'Sudah dicoba':'Belum dicoba')+'</span></div><div class="mbody"><div class="facts"><span class="fact">Tekstur: '+m.tex+'</span><span class="fact">Waktu: '+m.time+'</span></div><div><h4>Bahan 1 porsi</h4><ul>'+m.ing.map(function(i){return '<li>'+i+'</li>'}).join('')+'</ul></div><div><h4>Cara masak</h4><ol>'+m.steps.map(function(i){return '<li>'+i+'</li>'}).join('')+'</ol></div></div></article>'}).join('')}
+$('#filters').addEventListener('click',function(e){var p=e.target.dataset&&e.target.dataset.p;if(p){filt=p;renderMenus()}});
+
+/* Bahan */
+function renderBahan(rows){
+  var g={ok:[],watch:[],new:[]};rows.forEach(function(r){if(g[r.status])g[r.status].push(r)});
+  var T=[['ok','Aman','ok'],['watch','Diamati','watch'],['new','Belum dicoba','new']];
+  $('#cols').innerHTML=T.map(function(t){var l=g[t[0]].sort(function(a,b){return (a.name||'').localeCompare(b.name||'')});
+    return '<div class="card col '+t[2]+'"><h3>'+t[1]+'</h3>'+(l.length?l.map(function(r){return '<span class="pill">'+esc(r.name)+(r.note?' <small>'+esc(r.note)+'</small>':'')+'</span>'}).join(''):'<p class="empty">Belum ada bahan di sini.</p>')+'</div>'}).join('')}
+function esc(s){var d=document.createElement('div');d.textContent=String(s==null?'':s);return d.innerHTML}
+
+/* Tabs */
+function route(){var h=(location.hash||'#jadwal').slice(1);if(['jadwal','menu','bahan'].indexOf(h)<0)h='jadwal';
+  ['jadwal','menu','bahan'].forEach(function(k){$('#p-'+k).hidden=k!==h});
+  document.querySelectorAll('.tabs a').forEach(function(a){a.dataset.tab===h?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current')})}
+window.addEventListener('hashchange',route);
+renderMenus();route();renderNow();renderList();initDb();
+setInterval(function(){var d=jk().date;if(d!==today){location.reload();return}renderNow();renderList()},30000);
+})();
+</script>
+
+</body></html>
